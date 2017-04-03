@@ -24,16 +24,13 @@ RCT_REMAP_METHOD(getActivity,
   [self.cmManager startActivityUpdatesToQueue:self.motionActivityQueue withHandler:^(CMMotionActivity *activity) {
      dispatch_async(dispatch_get_main_queue(), ^{
        if ([activity stationary]) {
-         RCTLogInfo(@"activity: stationary");
-         resolve(@"activity stationary");
-       }
-       if ([activity walking]) {
-         RCTLogInfo(@"activity: walking");
-         resolve(@"activity walking");
-       }
-       if ([activity automotive]) {
-         RCTLogInfo(@"activity: automotive");
-         resolve(@"activity automotive");
+         resolve(@"stationary");
+       } else if ([activity walking]) {
+         resolve(@"walking");
+       } else if ([activity automotive]) {
+         resolve(@"automotive");
+       } else {
+         resolve(@"other");
        }
      });
     [self.cmManager stopActivityUpdates];

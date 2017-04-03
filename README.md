@@ -39,7 +39,9 @@
 ```javascript
 import RNDetectMotionActivity from 'react-native-detect-motion-activity';
 
-// TODO: What to do with the module?
-RNDetectMotionActivity;
+RNDetectMotionActivity.getActivity().then(
+  (activity)=>{
+    // do something with activity
+  }
+);
 ```
-  
