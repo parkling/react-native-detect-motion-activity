@@ -1,13 +1,43 @@
 
+@import CoreMotion;
+@import UIKit;
+@import EventKit;
+
 #import "RNDetectMotionActivity.h"
+#import "RCTLog.h"
+
+@interface RNDetectMotionActivity ()
+@property (nonatomic, strong) CMMotionActivityManager *cmManager;
+@property (nonatomic, strong) NSOperationQueue *motionActivityQueue;
+@end
 
 @implementation RNDetectMotionActivity
 
-- (dispatch_queue_t)methodQueue
+RCT_EXPORT_MODULE();
+
+RCT_REMAP_METHOD(getActivity,
+                 resolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject)
 {
-    return dispatch_get_main_queue();
+  self.cmManager = [[CMMotionActivityManager alloc] init];
+  self.motionActivityQueue = [[NSOperationQueue alloc] init];
+  [self.cmManager startActivityUpdatesToQueue:self.motionActivityQueue withHandler:^(CMMotionActivity *activity) {
+     dispatch_async(dispatch_get_main_queue(), ^{
+       if ([activity stationary]) {
+         RCTLogInfo(@"activity: stationary");
+         resolve(@"activity stationary");
+       }
+       if ([activity walking]) {
+         RCTLogInfo(@"activity: walking");
+         resolve(@"activity walking");
+       }
+       if ([activity automotive]) {
+         RCTLogInfo(@"activity: automotive");
+         resolve(@"activity automotive");
+       }
+     });
+    [self.cmManager stopActivityUpdates];
+  }];
 }
-RCT_EXPORT_MODULE()
 
 @end
-  
