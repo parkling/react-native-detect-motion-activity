@@ -1,5 +1,5 @@
 
-package com.parkling;
+package com.parkling.activity;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;

@@ -1,5 +1,5 @@
 
-package com.parkling;
+package com.parkling.activity;
 
 import java.util.Arrays;
 import java.util.Collections;
